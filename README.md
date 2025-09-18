@@ -1,16 +1,50 @@
-# news_clean_architecture
+# NewsApp - Clean Architecture Flutter Project
 
-A new Flutter project.
+A Flutter application implementing **Clean Architecture** for a News post management system.  
+Supports viewing all posts, adding, updating, and deleting posts using Bloc for state management.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 🛠 Features
 
-A few resources to get you started if this is your first Flutter project:
+- View all posts (from a REST API)  
+- Add new posts  
+- Update existing posts  
+- Delete posts  
+- Clean Architecture (Layers: Entity, UseCases, Repository, DataSource, Presentation)  
+- Bloc state management  
+- Dependency Injection setup  
+- Proper error handling and loading states  
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 📦 Packages Used
+
+Here are some of the important packages used in this project:
+
+| Package | Purpose |
+|--------|---------|
+| `flutter_bloc` | State management (Bloc & Events & States) |
+| `dio` | For HTTP requests to API |
+| `dartz` | Handling functional types like `Either` for error/success |
+| `equatable` | Easy value comparison in Bloc States & Events |
+| `get_it` | Dependency Injection |
+| `shared_preferences` | (If used) Local storage or caching |
+| `internet_connection_checker` | To detect network connectivity state |
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Flutter SDK installed (>= version X.X.X)  
+- A device or emulator running (Android or iOS)
+
+### Setup
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/Ibrahim-404/NewsApp.git
+   cd NewsApp
