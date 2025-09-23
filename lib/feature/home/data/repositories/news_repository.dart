@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:dartz/dartz.dart';
 import 'package:news_clean_architecture/core/errors/failure.dart';
 import 'package:news_clean_architecture/core/network/network_chacker.dart';
@@ -21,23 +20,41 @@ class PostRepositoryImplement implements PostRepository {
   });
 
   @override
-  Future<Either<Failure, List<Post>>> getAllPosts() async {
-    // TODO: implement getAllPosts
+ @override
+Future<Either<Failure, List<Post>>> getAllPosts() async {
+  if (await networkChecker.isConnected) {
+    try {
+      final remotePostModels = await remoteDataSource.fetchAllPosts();
+      final remotePosts = remotePostModels
+          .map((postModel) => postModel.toEntity())
+          .toList();
 
-    if (await networkChecker.isConnected) {
+      // Cache the data locally
+      await localDataSource.cachePosts(remotePostModels);
+
+      return Right(remotePosts);
+    } on ServerException {
       try {
-        final remotePostModels = await remoteDataSource.fetchAllPosts();
-        final remotePosts = remotePostModels.map((postModel) => postModel.toEntity()).toList();
-        localDataSource.cachePosts(remotePostModels);
-        return Right(remotePosts);
-      } catch (e) {
-        log('Error fetching posts: ${e.toString()}');
-        return Left(ServerFailure());
+        final localPostModels = await localDataSource.getCachedPosts();
+        final localPosts =
+            localPostModels.map((postModel) => postModel.toEntity()).toList();
+        return Right(localPosts);
+      } catch (_) {
+        return Left(CacheFailure());
       }
-    } else {
-      return Left(NetworkFailure());
+    }
+  } else {
+    try {
+      final localPostModels = await localDataSource.getCachedPosts();
+      final localPosts =
+          localPostModels.map((postModel) => postModel.toEntity()).toList();
+      return Right(localPosts);
+    } catch (_) {
+      return Left(NetworkFailure()); // or CacheFailure
     }
   }
+}
+
 
   @override
   Future<Either<Failure, Unit>> createPost(Post post) async {
@@ -91,7 +108,7 @@ class PostRepositoryImplement implements PostRepository {
   Future<Either<Failure, Unit>> updatePost(Post post) async {
     if (await networkChecker.isConnected) {
       try {
-        PostModel postModel = (post as PostModel).toModel();     
+        PostModel postModel = (post as PostModel).toModel();
         await remoteDataSource.updatePost(postModel);
         return Right(unit);
       } catch (e) {
@@ -102,6 +119,4 @@ class PostRepositoryImplement implements PostRepository {
       return Left(NetworkFailure());
     }
   }
-  }
-
-  
+}

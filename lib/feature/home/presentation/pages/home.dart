@@ -9,14 +9,16 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).primaryColor,
-        onPressed: () {
-          Navigator.pushNamed(context, '/addDeleteUpdate');
-        },
-        child: Icon(Icons.add),
-      ),
+    floatingActionButton: FloatingActionButton(
+      backgroundColor: Theme.of(context).primaryColor,
+      onPressed: () {
+        Navigator.pushNamed(context, '/addDeleteUpdate');
+      },
+      child: const Icon(Icons.add),
+    ),
+
       appBar: AppBar(
+
         centerTitle: true,
         backgroundColor: Theme.of(context).primaryColor,
         title: const Text('Home'),

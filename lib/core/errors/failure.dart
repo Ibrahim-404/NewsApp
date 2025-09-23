@@ -7,7 +7,7 @@ abstract class Failure extends Equatable {
 class ServerFailure extends Failure {
   final String message;
 
-  ServerFailure({this.message = 'Server Failure'});
+  ServerFailure({this.message = ''});
 
   @override
   List<Object?> get props => [message];
@@ -23,7 +23,7 @@ class CacheFailure extends Failure {
 class NetworkFailure extends Failure {
   final String message;
 
-  NetworkFailure({this.message = 'Network Failure'});
+  NetworkFailure({this.message = 'Please check your internet connection'});
 
   @override
   List<Object?> get props => [message];

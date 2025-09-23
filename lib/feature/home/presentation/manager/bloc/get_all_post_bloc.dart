@@ -15,15 +15,20 @@ class GetAllPostBloc extends Bloc<PostEvent, GetAllPostState> {
         emit(GetAllPostLoading());
         final failuerOrPosts = await posts.call();
         failuerOrPosts.fold(
-          (Failure) {
-            emit(GetAllPostError(Failure.toString()));
+          (failure) {
+            emit(GetAllPostError(_MapFailureToMessage(failure)));
           },
           (posts) {
             emit(GetAllPostLoaded(posts));
           },
         );
       } else if (event is RefreshPostsEvent) {
-        // emit(GetAllPostLoading());
+        emit(GetAllPostLoading());
+        final failuerOrPosts = await posts.call();
+        failuerOrPosts.fold(
+          (failure) => emit(GetAllPostError(_MapFailureToMessage(failure))),
+          (posts) => emit(GetAllPostLoaded(posts)),
+        );
       }
     });
   }
@@ -32,10 +37,10 @@ class GetAllPostBloc extends Bloc<PostEvent, GetAllPostState> {
 String _MapFailureToMessage(Failure failure) {
   switch (failure.runtimeType) {
     case ServerFailure:
-      return 'Server Failure';
+      return 'Please check your internet connection';
     case CacheFailure:
       return 'Cache Failure';
     default:
-      return 'Unknown Failure';
+      return 'Please check your internet connection';
   }
 }

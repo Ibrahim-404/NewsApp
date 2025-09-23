@@ -19,14 +19,10 @@ class _AddPostState extends State<AddPost> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    args =
-        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
-        
-  if (args == null) {
-      args = {
-        'isUpdate': false,
-        'post': null,
-      };
+    args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+
+    if (args == null) {
+      args = {'isUpdate': false, 'post': null};
     }
   }
 
@@ -34,32 +30,32 @@ class _AddPostState extends State<AddPost> {
   Widget build(BuildContext context) {
     final bool isUpdate = args?['isUpdate'] ?? false;
     final post = args?['post'];
-    log('Is Update: $isUpdate');
-    log("Post: $post");
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Theme.of(context).primaryColor,
-        title: Text(isUpdate ? 'Update Post' : 'Add Post'),
+        title: Text(
+          isUpdate ? 'Update Post' : 'Add Post',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
       body: BlocConsumer<DeleteUpdateCreateBloc, DeleteUpdateCreateState>(
         listener: (context, state) {
           if (state is SuccessProcessState) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(CustomSnackbar.successSnackbar(state.message));
+            ScaffoldMessenger.of(context).showSnackBar(
+              CustomSnackbar.successSnackbar(state.message),
+            );
             Navigator.pop(context);
           } else if (state is FailureProcessState) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(CustomSnackbar.failureSnackbar(state.message));
+            ScaffoldMessenger.of(context).showSnackBar(
+              CustomSnackbar.failureSnackbar(state.message),
+            );
           }
         },
         builder: (context, state) {
           if (state is LoadingProcessState) {
             return const Center(child: CircularProgressIndicator());
           }
-
           return FormWidgetState(isUpdate: isUpdate, editPost: post);
         },
       ),
