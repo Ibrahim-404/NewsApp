@@ -49,6 +49,9 @@ Here are some of the important packages used in this project:
    git clone https://github.com/Ibrahim-404/NewsApp.git
    cd NewsApp
 ![image alt](https://github.com/Ibrahim-404/NewsApp/blob/a6856aacb6f83ad9053331b85e90667b62f77369/Screenshot%202025-09-18%20201954.png)
+
 ![image alt](https://github.com/Ibrahim-404/NewsApp/blob/a6856aacb6f83ad9053331b85e90667b62f77369/Screenshot%202025-09-18%20201936.png)
+
 ![image alt](https://github.com/Ibrahim-404/NewsApp/blob/a6856aacb6f83ad9053331b85e90667b62f77369/Screenshot%202025-09-18%20201910.png)
+
 ![image alt](https://github.com/Ibrahim-404/NewsApp/blob/a6856aacb6f83ad9053331b85e90667b62f77369/Screenshot%202025-09-18%20201849.png)
