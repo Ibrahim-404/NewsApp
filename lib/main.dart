@@ -6,9 +6,14 @@ import 'package:news_clean_architecture/feature/home/presentation/manager/bloc/g
 import 'package:news_clean_architecture/injection_container.dart' as di;
 import 'core/routes/routes_setting.dart';
 import 'feature/splash/presentation/pages/splashScreen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await di.setupInjection();
   runApp(NewsApp());
 }
