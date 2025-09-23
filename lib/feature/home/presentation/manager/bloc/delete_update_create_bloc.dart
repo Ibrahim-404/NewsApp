@@ -11,11 +11,14 @@ part 'delete_update_create_state.dart';
 
 class DeleteUpdateCreateBloc
     extends Bloc<DeleteUpdateCreateEvent, DeleteUpdateCreateState> {
-
   final CreatePost createPost;
   final DeletePost deletePost;
   final Update updatePost;
-  DeleteUpdateCreateBloc({required this.createPost, required this.deletePost, required this.updatePost}) : super(DeleteUpdateCreateInitial()) {
+  DeleteUpdateCreateBloc({
+    required this.createPost,
+    required this.deletePost,
+    required this.updatePost,
+  }) : super(DeleteUpdateCreateInitial()) {
     on<DeleteUpdateCreateEvent>((event, emit) async {
       if (event is DeletePostEvent) {
         emit(LoadingProcessState());
@@ -32,7 +35,7 @@ class DeleteUpdateCreateBloc
           (success) => emit(SuccessProcessState('successfully updated')),
         );
       } else if (event is CreatePostEvent) {
-emit(LoadingProcessState());
+        emit(LoadingProcessState());
         final result = await createPost(event.post);
         result.fold(
           (failure) => emit(FailureProcessState(_MapFailureToMessage(failure))),
@@ -42,6 +45,7 @@ emit(LoadingProcessState());
     });
   }
 }
+
 String _MapFailureToMessage(Failure failure) {
   switch (failure.runtimeType) {
     case ServerFailure:
@@ -49,6 +53,6 @@ String _MapFailureToMessage(Failure failure) {
     case CacheFailure:
       return 'Cache Failure';
     default:
-      return 'Unknown Failure';
+      return 'please check your internet connection and try again later!';
   }
 }
