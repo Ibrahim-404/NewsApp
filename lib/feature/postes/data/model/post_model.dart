@@ -7,15 +7,8 @@ class PostModel extends Post {
   final String title;
   final String content;
 
-  PostModel({
-    this.id,
-    required this.title,
-    required this.content,
-  }) : super(
-          id: id,
-          title: title,
-          body: content,
-        );
+  PostModel({this.id, required this.title, required this.content})
+    : super(id: id, title: title, body: content);
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
     return PostModel(
@@ -26,24 +19,14 @@ class PostModel extends Post {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'title': title,
-      'content': body,
-    };
+    return {'id': id, 'title': title, 'content': content};
   }
+
   Post toEntity() {
-    return Post(
-      id: id,
-      title: title,
-      body: content, 
-    );
+    return Post(id: id, title: title, body: content);
   }
+
   PostModel toModel() {
-    return PostModel(
-      id: id,
-      title: title,
-      content: body,
-    );
+    return PostModel(id: id, title: title, content: body);
   }
 }
