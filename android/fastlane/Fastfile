@@ -1,0 +1,20 @@
+
+
+default_platform(:android)
+
+platform :android do
+  desc "Runs all the tests"
+  lane :distribute do
+    sh "flutter clean"
+    sh "flutter build apk --release"
+    
+    firebase_app_distribution(
+      app: ENV['FIREBASE_APP_ID'],
+      firebase_cli_token: ENV['FIREBASE_CLI_TOKEN'],
+      android_artifact_type: "APK",
+      android_artifact_path: "../build/app/outputs/flutter-apk/app-release.apk",
+      testers: ENV['TESTERS_EMAILS'],
+      release_notes: "New update available"
+      )
+  end
+end

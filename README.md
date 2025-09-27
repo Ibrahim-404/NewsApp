@@ -1,7 +1,7 @@
 # NewsApp - Clean Architecture Flutter Project
 
 A Flutter application implementing **Clean Architecture** for a News post management system.  
-Supports viewing all posts, adding, updating, and deleting posts using Bloc for state management.
+Supports viewing all posts, adding, updating, and deleting posts using Bloc for state management.  
 
 ---
 
@@ -15,12 +15,13 @@ Supports viewing all posts, adding, updating, and deleting posts using Bloc for 
 - Bloc state management  
 - Dependency Injection setup  
 - Proper error handling and loading states  
+- **Fastlane integration for Firebase App Distribution** 🚀  
 
 ---
 
 ## 📦 Packages Used
 
-Here are some of the important packages used in this project:
+Here are some of the important packages used in this project:  
 
 | Package | Purpose |
 |--------|---------|
@@ -31,6 +32,7 @@ Here are some of the important packages used in this project:
 | `get_it` | Dependency Injection |
 | `shared_preferences` | (If used) Local storage or caching |
 | `internet_connection_checker` | To detect network connectivity state |
+| `firebase_core` | Required to integrate with Firebase (needed for distribution via Fastlane) |
 
 ---
 
@@ -38,16 +40,21 @@ Here are some of the important packages used in this project:
 
 ### Prerequisites
 
-- Flutter SDK installed (>= version X.X.X)  
-- A device or emulator running (Android or iOS)
+- Flutter SDK installed (>= version 3.24.0)  
+- A device or emulator running (Android or iOS)  
+- Firebase project created for this app  
+- Fastlane installed ([see docs](https://docs.fastlane.tools/#installing-fastlane))  
+
+---
 
 ### Setup
 
-1. Clone the repository:
+1. Clone the repository:  
 
    ```bash
    git clone https://github.com/Ibrahim-404/NewsApp.git
    cd NewsApp
+
 ![image alt](https://github.com/Ibrahim-404/NewsApp/blob/a6856aacb6f83ad9053331b85e90667b62f77369/Screenshot%202025-09-18%20201954.png)
 
 ![image alt](https://github.com/Ibrahim-404/NewsApp/blob/a6856aacb6f83ad9053331b85e90667b62f77369/Screenshot%202025-09-18%20201936.png)

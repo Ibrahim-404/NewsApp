@@ -35,6 +35,7 @@ class DeleteUpdateCreateBloc
           (success) => emit(SuccessProcessState('successfully updated')),
         );
       } else if (event is CreatePostEvent) {
+        
         emit(LoadingProcessState());
         final result = await createPost(event.post);
         result.fold(
