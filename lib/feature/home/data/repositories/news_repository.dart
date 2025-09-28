@@ -20,53 +20,46 @@ class PostRepositoryImplement implements PostRepository {
   });
 
   @override
- @override
-Future<Either<Failure, List<Post>>> getAllPosts() async {
-  if (await networkChecker.isConnected) {
-    try {
-      final remotePostModels = await remoteDataSource.fetchAllPosts();
-      final remotePosts = remotePostModels
-          .map((postModel) => postModel.toEntity())
-          .toList();
+  Future<Either<Failure, List<Post>>> getAllPosts() async {
+    if (await networkChecker.isConnected) {
+      try {
+        final remotePostModels = await remoteDataSource.fetchAllPosts();
+        final remotePosts =
+            remotePostModels.map((postModel) => postModel.toEntity()).toList();
 
-      // Cache the data locally
-      await localDataSource.cachePosts(remotePostModels);
+        // Cache the data locally
+        await localDataSource.cachePosts(remotePostModels);
 
-      return Right(remotePosts);
-    } on ServerException {
+        return Right(remotePosts);
+      } catch (e) {
+        try {
+          final localPostModels = await localDataSource.getCachedPosts();
+          final localPosts = localPostModels.map((postModel) => postModel.toEntity()).toList();
+          return Right(localPosts);
+        } catch (_) {
+          return Left(CacheFailure());
+        }
+      }
+    } else {
       try {
         final localPostModels = await localDataSource.getCachedPosts();
-        final localPosts =
-            localPostModels.map((postModel) => postModel.toEntity()).toList();
+        final localPosts = localPostModels.map((postModel) => postModel.toEntity()).toList();
         return Right(localPosts);
       } catch (_) {
-        return Left(CacheFailure());
+        return Left(NetworkFailure()); 
       }
     }
-  } else {
-    try {
-      final localPostModels = await localDataSource.getCachedPosts();
-      final localPosts =
-          localPostModels.map((postModel) => postModel.toEntity()).toList();
-      return Right(localPosts);
-    } catch (_) {
-      return Left(NetworkFailure()); // or CacheFailure
-    }
   }
-}
-
 
   @override
   Future<Either<Failure, Unit>> createPost(Post post) async {
-    // TODO: implement createPost
-
     if (await networkChecker.isConnected) {
       try {
-        PostModel postModel = (post as PostModel).toModel();
+        final postModel = PostModel.fromEntity(post);
         await remoteDataSource.createPost(postModel);
         return Right(unit);
-      } on Exception catch (e) {
-        log('Error creating post: ${e.toString()}');
+      } catch (e) {
+        log('Error creating post: $e');
         return Left(ServerFailure());
       }
     } else {
@@ -81,7 +74,7 @@ Future<Either<Failure, List<Post>>> getAllPosts() async {
         final remotePostModel = await remoteDataSource.fetchPostById(id);
         return Right(remotePostModel.toEntity());
       } catch (e) {
-        log('Error fetching post by id: ${e.toString()}');
+        log('Error fetching post by id: $e');
         return Left(ServerFailure());
       }
     } else {
@@ -96,7 +89,7 @@ Future<Either<Failure, List<Post>>> getAllPosts() async {
         await remoteDataSource.deletePost(id);
         return Right(unit);
       } catch (e) {
-        log('Error deleting post: ${e.toString()}');
+        log('Error deleting post: $e');
         return Left(ServerFailure());
       }
     } else {
@@ -108,11 +101,11 @@ Future<Either<Failure, List<Post>>> getAllPosts() async {
   Future<Either<Failure, Unit>> updatePost(Post post) async {
     if (await networkChecker.isConnected) {
       try {
-        PostModel postModel = (post as PostModel).toModel();
+        final postModel = PostModel.fromEntity(post);
         await remoteDataSource.updatePost(postModel);
         return Right(unit);
       } catch (e) {
-        log('Error updating post: ${e.toString()}');
+        log('Error updating post: $e');
         return Left(ServerFailure());
       }
     } else {
