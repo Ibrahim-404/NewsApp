@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:label="news_clean_architecture"
+        android:label="TweetLeaks"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
